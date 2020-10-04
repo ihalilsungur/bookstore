@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Yayın Evi Sayfası</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/home.css}"/>
+    <link rel="stylesheet" th:href="@{/static/css/dashboard.css}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</head>
+</head>
+
+<body>
+<div class="container">
+
+    <form th:action="@{/logout}" method="get"
+          style="margin-top: 10px;background-color: #a4aab1;width: 100%;height: 80px;
+        border-radius: 20px">
+        <br>
+        <div class="container" style="margin-left: 10px">
+            <div class="row">
+                <div class="col-md-8">
+                    <nav class="navbar navbar-expand-lg navbar-light ">
+
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav">
+                                <li class="nav-item active">
+                                    <a class="nav-link"
+                                       th:href="@{/author}"
+                                       style="font-weight: bold;color: white;font-size: 18px"
+                                    >Yazar <span class="sr-only">(current)</span></a>
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link"
+                                       th:href="@{/book}"
+                                       style="font-weight: bold;color: white;font-size: 18px"
+                                    >Kitap <span class="sr-only">(current)</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link"   th:href="@{/publisher}"
+                                       style="font-weight: bold;color: white;font-size: 18px"
+                                    >Yayın Evi</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+
+                <div class="col-md-2">
+                     <span style="margin-top: 10px;font-weight: bold;color: white"
+                           th:utext="${userName}"></span>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-md btn-danger btn-block" name="registration"
+                            style="text-align: center;
+                margin-right: 10px;
+                font-weight: bold;
+                width: 100px;
+                margin-right: 10px;
+                "
+                            type="Submit">Çıkış
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container" style="margin-top: 100px;margin-left: 30%">
+    <div class="row">
+        <div class="panel-group" style="margin-top:40px">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+
+                    <div
+                            style="margin-left: 400px;font-weight: bold;font-size: 25px;
+                            margin-bottom: 40px"
+                    >Yayın Evi Listesi
+                    </div>
+                </div>
+
+
+                <div class="panel-body" th:object="${publisher}" id="userTable" border="1">
+                    <table class="table">
+                        <thead class="thead-striped">
+                        <tr>
+                            <th scope="col"> Ad</th>
+                            <th scope="col"> Açıklama</th>
+                            <!--/*@thymesVar id="isAdmin" type=""*/-->
+                            <th scope="col" th:text="${isAdmin == '[ADMIN]'} ? 'Sil' : ''">Sil</th>
+                            <th scope="col" th:text="${isAdmin == '[ADMIN]'} ? 'Düzenleme' : ''"> Düzenleme</th>
+
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr th:if="${publisher.isEmpty()}">
+                            <td colspan="2"> No Books Available</td>
+                        </tr>
+
+                        <tr th:each="pub : ${publisher}">
+                            <td th:text="${pub.name}"></td>
+                            <td th:text="${pub.description}"></td>
+
+
+                            <td th:text="${isAdmin == '[ADMIN]'} ? 'Sil' : ''">
+                                <a th:href="@{/publisher/{id}(id=${pub.id})}"
+
+                                   style="font-size: 15px;color: white ;"
+                                   class="btn btn-danger"  >Sil
+                                </a>
+                            </td>
+
+                            <td th:text="${isAdmin == '[ADMIN]'} ? 'Güncelleme' : ''">
+                                <a th:href="@{/edit-publisher/{id}(id=${pub.id})}"
+                                   style="font-size: 15px;color: white ;"
+                                   class="btn btn-primary">Güncelle</a></td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+                    <br>
+                    <a th:href="@{/home}"
+                       style="font-size: 15px;color: white ; margin-left: 20px;"
+                       class="btn btn-primary">Ana Sayfaya Git</a>
+                    <a th:href="@{/new-publisher}"
+                       style="font-size: 15px;color: white ; margin-left: 20px;"
+                       class="btn btn-primary">Yayın Evi Ekle</a>
+
+                </div>
+                <p class="admin-message-text text-center"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

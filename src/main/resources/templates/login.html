@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Spring Security Tutorial</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<!--
+<form th:action="@{/registration}" method="get">
+    <button class="btn btn-md btn-warning btn-block" type="Submit">Go To Registration Page</button>
+</form>
+-->
+<div class="container">
+
+
+    <form th:action="@{/login}" method="POST" class="form-sign-in"
+          style="width: 350px;text-align: center; margin-left: 400px">
+        <h3 class="form-sign-in-heading"  th:text="Hoş_Geldiniz"
+            style="font-weight: bold;color: #727268;margin-top: 50%"></h3>
+        <br/>
+
+        <input type="text" id="user_name"
+               style="height: 40px ;"
+               name="user_name" placeholder="User Name"
+               value="abraham"
+               class="form-control"/> <br/>
+        <input type="password" th:placeholder="Password"
+               style="height: 40px;"
+               value="12345"
+               id="password" name="password" class="form-control"/> <br/>
+
+        <div align="center" th:if="${param.error}">
+            <p style="font-size: 20px; color: #FF1C19;">
+                User Name or Password invalid, please verify
+            </p>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary btn-block">Giriş Yap</button>
+
+            </div>
+
+            <div class="col-md-3" style="margin-top: 10px">
+                <a th:href="@{/registration}"
+                   style="font-size: 15px;color: #727268"
+                   class="stretched-link">Kayıt ol</a>
+            </div>
+            <div class="col-md-3">
+
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
