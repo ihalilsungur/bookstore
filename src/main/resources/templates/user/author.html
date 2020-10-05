@@ -90,8 +90,8 @@
                         <tr>
                             <th scope="col"> Ad</th>
                             <th scope="col"> Açıklama</th>
-                            <th scope="col" th:if="${isAdmin}">  Sil</th>
-                            <th scope="col"> Düzenleme</th>
+                            <th scope="col" th:text="${isAdmin == '[ADMIN]'} ? 'Sil' : ''">  Sil</th>
+                            <th scope="col" th:text="${isAdmin == '[ADMIN]'} ? 'Düznemele' : ''"> Düzenleme</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -105,12 +105,14 @@
                             <td th:text="${auth.description}"></td>
 
 
-                            <td><a th:href="@{/author/{id}(id=${auth.id})}"
+                            <td   th:if="${isAdmin =='[ADMIN]'}"><a th:href="@{/author/{id}(id=${auth.id})}"
                                    style="font-size: 15px;color: white ;"
+                                   th:text="${isAdmin == '[ADMIN]'} ? 'Sil' : ''"
                                    class="btn btn-danger">Sil</a></td>
 
-                            <td><a th:href="@{/edit-author/{id}(id=${auth.id})}"
+                            <td th:if="${isAdmin =='[ADMIN]'}" ><a th:href="@{/edit-author/{id}(id=${auth.id})}"
                                    style="font-size: 15px;color: white ;"
+                                    th:text="${isAdmin == '[ADMIN]'} ? 'Güncelleme' : ''"
                                    class="btn btn-primary">Güncelle</a></td>
                         </tr>
 

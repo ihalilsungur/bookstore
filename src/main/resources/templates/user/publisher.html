@@ -108,17 +108,18 @@
                             <td th:text="${pub.description}"></td>
 
 
-                            <td th:text="${isAdmin == '[ADMIN]'} ? 'Sil' : ''">
+                            <td  th:if="${isAdmin =='[ADMIN]'}">
                                 <a th:href="@{/publisher/{id}(id=${pub.id})}"
-
+                                   th:text="${isAdmin == '[ADMIN]'} ? 'Sil' : ''"
                                    style="font-size: 15px;color: white ;"
                                    class="btn btn-danger"  >Sil
                                 </a>
                             </td>
 
-                            <td th:text="${isAdmin == '[ADMIN]'} ? 'Güncelleme' : ''">
+                            <td th:if="${isAdmin =='[ADMIN]'}" >
                                 <a th:href="@{/edit-publisher/{id}(id=${pub.id})}"
                                    style="font-size: 15px;color: white ;"
+                                   th:text="${isAdmin == '[ADMIN]'} ? 'Güncelleme' : ''"
                                    class="btn btn-primary">Güncelle</a></td>
                         </tr>
 

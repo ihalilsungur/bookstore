@@ -128,13 +128,13 @@
                             <th scope="col"> Yayın Evi</th>
                             <th scope="col"> Isbn Numarası</th>
                             <th scope="col"> Açıklama</th>
-                            <th scope="col"> Sil</th>
-                            <th scope="col"> Düzenleme</th>
+                            <th scope="col" th:text="${isAdmin == '[ADMIN]'} ? 'Sil' : ''"> Sil</th>
+                            <th scope="col" th:text="${isAdmin == '[ADMIN]'} ? 'Düzenleme' : ''"> Düzenleme</th>
                         </tr>
                         </thead>
                         <tbody>
 
-                        <tr th:if="${book.isEmpty()}">
+                        <tr th:if="${book.isEmpty()}" >
                             <td colspan="2"> No Books Available</td>
                         </tr>
 
@@ -148,12 +148,17 @@
                             <td th:text="${bo.description}"></td>
 
 
-                            <td><a th:href="@{/book/{id}(id=${bo.id})}"
+                            <td th:if="${isAdmin =='[ADMIN]'}">
+                                <a th:href="@{/book/{id}(id=${bo.id})}"
                                    style="font-size: 15px;color: white ;"
-                                   class="btn btn-danger">Sil</a></td>
+                                    th:text="${isAdmin == '[ADMIN]'} ? 'Sil' : ''"
+                                   class="btn btn-danger">Sil
+                                </a>
+                            </td>
 
-                            <td><a th:href="@{/edit-book/{id}(id=${bo.id})}"
+                            <td   th:if="${isAdmin =='[ADMIN]'}"><a th:href="@{/edit-book/{id}(id=${bo.id})}"
                                    style="font-size: 15px;color: white ;"
+                                    th:text="${isAdmin == '[ADMIN]'} ? 'Güncelleme' : ''"
                                    class="btn btn-primary">Güncelle</a></td>
                         </tr>
 

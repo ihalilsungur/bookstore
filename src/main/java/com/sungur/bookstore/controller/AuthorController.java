@@ -46,12 +46,7 @@ public class AuthorController {
         ModelAndView modelAndView = new ModelAndView();
         List<Author> authors = authorService.allAuthors();
         modelAndView.addObject("author", authors);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("USER--------->:"+auth.getAuthorities());
-        Collection<? extends GrantedAuthority> isAdmin= auth.getAuthorities();
-        System.out.println("isAdmin--------->:"+isAdmin);
-        User user = userService.findUserByUserName(auth.getName());
-        modelAndView.addObject("userName", "Welcome " + user.getUserName());
+        BookController.userInformation(modelAndView, userService);
         modelAndView.addObject("AuthorMessage", "Content Available Only for Users withUser Role");
         modelAndView.setViewName("user/author");
         return modelAndView;

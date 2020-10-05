@@ -11,6 +11,7 @@ import com.sungur.bookstore.service.PublisherService;
 import com.sungur.bookstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,12 +60,18 @@ public class BookController {
         ModelAndView modelAndView = new ModelAndView();
         List<Book> books = bookService.allBooks();
         modelAndView.addObject("book", books);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByUserName(auth.getName());
-        modelAndView.addObject("userName", "Welcome " + user.getUserName());
+        userInformation(modelAndView, userService);
         modelAndView.addObject("BookMessage", "Content Available Only for Users withUser Role");
         modelAndView.setViewName("user/book");
         return modelAndView;
+    }
+
+    static void userInformation(ModelAndView modelAndView, UserService userService) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> isAdmin= auth.getAuthorities();
+        modelAndView.addObject("isAdmin", "" + isAdmin);
+        User user = userService.findUserByUserName(auth.getName());
+        modelAndView.addObject("userName", "Welcome " + user.getUserName());
     }
 
     @GetMapping("search-book?name=/{name}")
